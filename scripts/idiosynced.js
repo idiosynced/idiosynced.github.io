@@ -9,6 +9,7 @@ namespace("idiosynced.Idiosynced",{
     Backlog, Dialog, FileDownload, LoadFile, TaskBoard, TaskView
 }) => {
     const localStorageKey = "idiosynced.Idiosynced.localData";
+    const validateJSON = function(json) {}
     return class extends React.Component {
         constructor(props) {
             super(props);
@@ -73,7 +74,7 @@ namespace("idiosynced.Idiosynced",{
                 'text',
                 (fileContent) => {
                   const jsonData = JSON.parse(fileContent);
-                  const error = Schema.validate(jsonData);
+                  const error = validateJSON(jsonData);
                   if (error) {
                     throw error;
                   }

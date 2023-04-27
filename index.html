@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>Idiosynced!</title>
+        <!-- external styles -->
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"/>
+        <!-- jQuery -->
+        <link rel="stylesheet" href="https://voltron42.github.io/archive/jquery-ui-drag-and-drop/jquery-ui.min.css"/>
+        <link rel="stylesheet" href="https://voltron42.github.io/archive/jquery-ui-drag-and-drop/jquery-ui.structure.min.css"/>
+        <link rel="stylesheet" href="https://voltron42.github.io/archive/jquery-ui-drag-and-drop/jquery-ui.theme.min.css"/>
+
+        <!-- project styles -->
+        <link rel="stylesheet" href="style.css">
+
+        <!-- external dependencies -->
+        <script src="https://voltron42.github.io/gizmo-atheneum/structure/importnamespace/script.js"></script>
+        <!-- REACT -->
+        <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://voltron42.github.io/archive/jquery-ui-drag-and-drop/jquery-ui.min.js"></script>
+        <script src="https://voltron42.github.io/archive/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+
+        <!-- common dependencies -->
+        <script type="text/babel" src="https://voltron42.github.io/gizmo-atheneum/namespaces/dialog.js"></script>
+        <script type="text/babel" src="https://voltron42.github.io/gizmo-atheneum/namespaces/fileDownload.js"></script>
+        <script type="text/babel" src="https://voltron42.github.io/gizmo-atheneum/namespaces/loadFile.js"></script>
+
+        <!-- local dependencies -->
+        <script type="text/babel" src="scripts/backlog.js"></script>
+        <script type="text/babel" src="scripts/idiosynced.js"></script>
+        <script type="text/babel" src="scripts/taskBoard.js"></script>
+        <script type="text/babel" src="scripts/taskView.js"></script>
+
+        <!-- init script -->
+        <script type="text/babel">
+            const Idiosynced = importNamespace("idiosynced.Idiosynced");
+            const unusedNamespaces = listUnusedNamespaces();
+            if (unusedNamespaces.length > 0) {
+                console.warn({ unusedNamespaces });
+            }
+            ReactDOM.createRoot(document.getElementById('appRoot')).render(<Idiosynced/>);
+        </script>
+    </head>
+    <body class="bg-dark text-light">
+        <div id="appRoot" class="container"></div>
+    </body>
+</html>

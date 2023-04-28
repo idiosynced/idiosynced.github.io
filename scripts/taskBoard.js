@@ -62,14 +62,24 @@ namespace('idiosynced.TaskBoard',{
             return { columnTasks, idIndicies };
           }, {columnTasks:[], idIndicies:{}});
           const taskTops = columnTasks.map((taskId) => {
-            const top = document.getElementById(taskId).clientTop;
-            return { id: taskId, top };
+            return { 
+              id: taskId, 
+              index: idIndicies[taskId], 
+              top: document.getElementById(taskId).clientTop
+            };
           }).sort((a,b) => a.top - b.top);
-          // todo - figure drop position
+          const newIndex = taskTops.filter((t) => t.top < top).length;
           const taskId = draggable[0].id;
           const taskIndex = idIndicies[taskId];
-          tasks[taskIndex].stage = dropId;
-          me.updateState({ tasks });
+          taskTops.splice(newIndex, 0, { id: taskId, index: taskIndex, top });
+          const columnIds = taskTops.reduce((out, { id }) => {
+            out[id] = true;
+            return out;
+          }, {});
+          const task = tasks[taskIndex];
+          task.stage = dropId;
+          const newTaskOrder = [].concat( taskTops.map(({index}) => tasks[index]), tasks.filter(({id}) => !columnIds[id]))
+          me.updateState({ tasks: newTaskOrder });
         }
       });
       $(".draggable").draggable({ 

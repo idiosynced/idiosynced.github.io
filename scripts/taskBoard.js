@@ -47,19 +47,27 @@ namespace('idiosynced.TaskBoard',{
         out:(event) => {
           dragDropState.id = event.target.id;
         },
-        drop:(event,{ draggable }) => {
+        drop:(event,{ draggable, position: { top } }) => {
           delete dragDropState.id;
           Array.from(document.querySelectorAll(".droppable")).forEach((droppable) => {
             droppable.classList.remove("drop-target");
           });
           const tasks = Array.from(me.state.tasks);
           const dropId = event.target.id;
+          const { columnTasks, idIndicies } = tasks.reduce(({ columnTasks, idIndicies }, task, index) => {
+            idIndicies[task.id] = index;
+            if (task.stage === dropId) {
+              columnTasks.push(task.id);
+            }
+            return { columnTasks, idIndicies };
+          }, {columnTasks:[], idIndicies:{}});
+          const taskTops = columnTasks.map((taskId) => {
+            const top = document.getElementById(taskId).clientTop;
+            return { id: taskId, top };
+          }).sort((a,b) => a.top - b.top);
+          // todo - figure drop position
           const taskId = draggable[0].id;
-          const taskIndex = tasks.map((task,index) => {
-            return {task,index};
-          }).filter(({task}) => {
-            return task.id === taskId;
-          })[0].index;
+          const taskIndex = idIndicies[taskId];
           tasks[taskIndex].stage = dropId;
           me.updateState({ tasks });
         }
@@ -116,6 +124,7 @@ namespace('idiosynced.TaskBoard',{
                       <div className="card-body">
                         <h3 className="card-title">{task.title}</h3>
                         <p className="card-text">{task.description}</p>
+                        <button className="btn btn-info" onClick={() => props.viewTask({ task, index })}><i className="fas fa-pencil-alt"/></button>
                       </div>
                     </div>;
                   }) }

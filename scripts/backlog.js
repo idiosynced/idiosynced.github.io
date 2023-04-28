@@ -31,8 +31,9 @@ namespace('idiosynced.Backlog',{
                 return <div key={`task-card-${task.id}`} className={`${cardClasses} border-light`}>
                   <div className="card-body d-flex">
                     <span className="flex-grow-1"><strong>{task.title}</strong> - {task.description}</span>
-                    <button className="btn btn-success" onClick={() => setReady(index)}>^</button>
-                    <button className="btn btn-danger" onClick={() => deleteTask(index)}>X</button>
+                    <button className="btn btn-success" onClick={() => setReady(index)}><i className="fas fa-flag-checkered"/></button>
+                    <button className="btn btn-info" onClick={() => props.viewTask({ task, index })}><i className="fas fa-pencil-alt"/></button>
+                    <button className="btn btn-danger" onClick={() => deleteTask(index)}><i className="far fa-trash-alt"/></button>
                   </div>
                 </div>;
               })  }

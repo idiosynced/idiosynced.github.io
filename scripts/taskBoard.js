@@ -61,16 +61,21 @@ namespace('idiosynced.TaskBoard',{
             }
             return { columnTasks, idIndicies };
           }, {columnTasks:[], idIndicies:{}});
-          const taskTops = columnTasks.map((taskId) => {
+          const taskTops = columnTasks.map((id) => {
+            const index = idIndicies[id]
             return { 
-              id: taskId, 
-              index: idIndicies[taskId], 
-              top: document.getElementById(taskId).clientTop
+              id, 
+              index, 
+              top: document.getElementById(id).offsetTop
             };
           }).sort((a,b) => a.top - b.top);
-          const newIndex = taskTops.filter((t) => t.top < top).length;
           const taskId = draggable[0].id;
+          const existing = taskTops.map(({id},index) => { return { id, index }}).filter(({ id }) => id === taskId)[0];
+          if (existing) {
+            taskTops.splice(existing.index,1);
+          }
           const taskIndex = idIndicies[taskId];
+          const newIndex = taskTops.filter((t) => t.top < top).length;
           taskTops.splice(newIndex, 0, { id: taskId, index: taskIndex, top });
           const columnIds = taskTops.reduce((out, { id }) => {
             out[id] = true;
@@ -78,8 +83,9 @@ namespace('idiosynced.TaskBoard',{
           }, {});
           const task = tasks[taskIndex];
           task.stage = dropId;
-          const newTaskOrder = [].concat( taskTops.map(({index}) => tasks[index]), tasks.filter(({id}) => !columnIds[id]))
+          const newTaskOrder = [].concat( taskTops.map(({index}) => tasks[index]), tasks.filter(({id}) => !columnIds[id]));
           me.updateState({ tasks: newTaskOrder });
+          me.setState({ tasks: newTaskOrder });
         }
       });
       $(".draggable").draggable({ 

@@ -1,12 +1,12 @@
 namespace("idiosynced.Idiosynced",{
     "idiosynced.Backlog":"Backlog",
-    "gizmo-atheneum.namespaces.Dialog":"Dialog",
-    "gizmo-atheneum.namespaces.FileDownload":"FileDownload",
+    "gizmo-atheneum.namespaces.react.Dialog":"Dialog",
+    "gizmo-atheneum.namespaces.Download":"Download",
     "gizmo-atheneum.namespaces.LoadFile":"LoadFile",
     "idiosynced.TaskBoard":"TaskBoard",
     "idiosynced.TaskView":"TaskView",
 },({
-    Backlog, Dialog, FileDownload, LoadFile, TaskBoard, TaskView
+    Backlog, Dialog, Download, LoadFile, TaskBoard, TaskView
 }) => {
     const localStorageKey = "idiosynced.Idiosynced.localData";
     const validateJSON = function(json) {}
@@ -66,7 +66,7 @@ namespace("idiosynced.Idiosynced",{
             }
         }
         download() {
-            FileDownload.triggerJSONDownload("idiosynced","idiosynced",this.state);
+            Download.triggerJSONDownload("idiosynced","idiosynced",this.state);
         }
         upload() {
             LoadFile(
